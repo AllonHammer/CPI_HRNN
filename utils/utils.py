@@ -4,6 +4,7 @@ import numpy as np
 import datetime
 from scipy.stats import pearsonr
 
+
 def sigmoid(x):
     return 1 / (1 + math.exp(-x))
 
@@ -196,8 +197,6 @@ def split_train_test_vec(data, split=0.7, y_category_id=8106):
     for rnk in train_rnks:
         lst.append(train_fixed[train_fixed['rnk'] == rnk][x_cols].values.T)
 
-
-
     X_train = np.stack(lst)
 
     lst = []
@@ -206,7 +205,6 @@ def split_train_test_vec(data, split=0.7, y_category_id=8106):
         lst.append(test_fixed[test_fixed['rnk'] == rnk][x_cols].values.T)
     X_test = np.stack(lst)
     return train_fixed, test_fixed, X_train, X_test, y_train, y_test
-
 
 
 def calc_lambda_values(df):
@@ -245,22 +243,23 @@ def calc_lambda_values(df):
                        'depth': item[1]}
     return d
 
+
 def calc_corr(df):
-    categories=df['Category_id'].value_counts().sort_index().index.tolist()
-    corr=pd.DataFrame(columns=categories, index=categories)
-    for e,i in enumerate(categories):
-        print('This is the {} out of {}'.format (e+1, len(categories)))
-        for k,j in enumerate(categories):
-            if i==j:
-                corr.loc[i,j]=1
-            elif not pd.isnull(corr.loc[j,i]):
-                corr.loc[i,j]=corr.loc[j,i]
+    categories = df['Category_id'].value_counts().sort_index().index.tolist()
+    corr = pd.DataFrame(columns=categories, index=categories)
+    for e, i in enumerate(categories):
+        print('This is the {} out of {}'.format(e + 1, len(categories)))
+        for k, j in enumerate(categories):
+            if i == j:
+                corr.loc[i, j] = 1
+            elif not pd.isnull(corr.loc[j, i]):
+                corr.loc[i, j] = corr.loc[j, i]
             else:
-                i_samples=df[df['Category_id']==i]['Inflation t']
-                j_samples=df[df['Category_id']==j]['Inflation t']
-                t=min(len(i_samples), len(j_samples))
-                c=pearsonr(i_samples[0:t], j_samples[0:t])
-                corr.loc[i,j]=np.round(c[0],2)
+                i_samples = df[df['Category_id'] == i]['Inflation t']
+                j_samples = df[df['Category_id'] == j]['Inflation t']
+                t = min(len(i_samples), len(j_samples))
+                c = pearsonr(i_samples[0:t], j_samples[0:t])
+                corr.loc[i, j] = np.round(c[0], 2)
     corr.fillna(0, inplace=True)
     corr = corr.abs()
     return corr
