@@ -31,6 +31,17 @@ The data set contains the following columns:
 
 In order to run the code please make sure all Prerequisites are met (Pandas==0.22 in particular)
 #### Prerequisites
+
+@article{barkan2023forecasting,
+  title={Forecasting CPI inflation components with hierarchical recurrent neural networks},
+  author={Barkan, Oren and Benchimol, Jonathan and Caspi, Itamar and Cohen, Eliya and Hammer, Allon and Koenigstein, Noam},
+  journal={International Journal of Forecasting},
+  volume={39},
+  number={3},
+  pages={1145--1162},
+  year={2023},
+  publisher={Elsevier}
+}
     pip install -r requirements.txt
 
     
